@@ -39,6 +39,10 @@ public class Film {
         return nazwa;
     }
 
+    public String getSkrot() {
+        return nazwa;
+    }
+
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
