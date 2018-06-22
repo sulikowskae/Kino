@@ -14,7 +14,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 
-public class DodajSale implements HierarchicalController<MainController> {
+public class DodajSala implements HierarchicalController<MainController> {
 
     public TextField number;
     public TextField type;
@@ -34,7 +34,7 @@ public class DodajSale implements HierarchicalController<MainController> {
         this.parentController = parentController;
         //tabelka.getItems().addAll(parentController.getDataContainer().getStudents());
         tabelka.setEditable(true);
-        tabelka.setItems(parentController.getTabelaDane().getSale());
+        tabelka.setItems(parentController.getTabelaDane().getSala());
     }
 
     public MainController getParentController() {
@@ -80,7 +80,7 @@ public class DodajSale implements HierarchicalController<MainController> {
     }
 
     public void synchronizuj(ActionEvent actionEvent) {
-        parentController.getTabelaDane().setSale(tabelka.getItems());
+        parentController.getTabelaDane().setSala(tabelka.getItems());
     }
 
     public void dodajJesliEnter(KeyEvent keyEvent) {

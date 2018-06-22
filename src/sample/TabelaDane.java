@@ -11,10 +11,10 @@ public class TabelaDane {
     protected ObservableList<Film> filmy;
     protected ObservableList<Sala> sale;
 
-    public ObservableList<Sala> getSale() {
+    public ObservableList<Sala> getSala() {
         return sale;
     }
-    public void setSale(List<Sala> sale) {
+    public void setSala(List<Sala> sale) {
         this.sale = FXCollections.observableArrayList(sale);
     }
 
