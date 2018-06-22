@@ -20,7 +20,7 @@ public class Film {
         this(nazwa, opis, czas, limit);
     }*/
 
-    public Film(String nazwa, String opis, Integer czas, Integer limit,BufferedImage obrazek) {
+    /* public Film(String nazwa, String opis, Integer czas, Integer limit, BufferedImage obrazek) {
         this.nazwa = nazwa;
         this.opis = opis;
         this.czas = czas;
@@ -31,7 +31,7 @@ public class Film {
             e.printStackTrace();
         }
     }
-
+*/
 
 
 

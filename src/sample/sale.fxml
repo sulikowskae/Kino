@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane fx:controller="sample.DodajSale" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <TableView fx:id="tabelka" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn id="number" prefWidth="200.0" text="Numer sali" />
+                <TableColumn id="type" prefWidth="200.0" text="Typ sali" />
+                <TableColumn id="seats" prefWidth="200.0" text="Liczba miejsc" />
+            </columns>
+        </TableView>
+    </center>
+    <right>
+        <VBox prefHeight="436.0" prefWidth="172.0" BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="number" promptText="Numer sali" />
+                <TextField fx:id="type" promptText="Typ sali" />
+                <TextField fx:id="seats" layoutX="10.0" layoutY="49.0" promptText="Liczba miejsc" />
+                <Button mnemonicParsing="false" onAction="#dodaj" text="Dodaj" />
+                <Button mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
+                <Button mnemonicParsing="false" onAction="#wczytaj" text="Wczytaj" />
+            </children>
+        </VBox>
+    </right>
+</BorderPane>

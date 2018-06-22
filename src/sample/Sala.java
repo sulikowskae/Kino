@@ -5,15 +5,18 @@ public class Sala {
     private String numer;
     private Integer miejsca; // liczba miejsc
 
-    public Sala(String numer, String type, Integer miejsca) {
+    /*public Sala(String numer, String typ, Integer miejsca) {
         this.numer = numer;
-    }
+    }*/
+
 
     public String getTyp() {
+
         return typ;
     }
 
     public void setTyp(String typ) {
+
         this.typ = typ;
     }
 

@@ -1,8 +1,40 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
+    <center>
+        <Pane fx:id="srodek" prefHeight="400.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
+    </center>
+    <top>
+        <GridPane prefHeight="47.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button mnemonicParsing="false" onAction="#film" text="Film">
+                    <font>
+                        <Font name="Calibri" size="18.0" />
+                    </font>
+
+                </Button>
+                <Button mnemonicParsing="false" onAction="#sala" text="Sala" GridPane.columnIndex="2">
+                    <font>
+                        <Font name="Calibri" size="18.0" />
+                    </font>
+                </Button>
+            </children>
+        </GridPane>
+    </top>
+</BorderPane>
