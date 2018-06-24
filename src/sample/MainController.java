@@ -17,7 +17,7 @@ public class MainController implements HierarchicalController<MainController> {
     }
 
     public MainController() {
-        tabelaDane = new TabelaDane();
+        this.tabelaDane = new TabelaDane();
     }
 
     public void film(ActionEvent actionEvent) {
@@ -26,6 +26,10 @@ public class MainController implements HierarchicalController<MainController> {
 
     public void sala(ActionEvent actionEvent) {
         loadIntoPane("sale.fxml");
+    }
+
+    public void seans(ActionEvent actionEvent) {
+        loadIntoPane("seanse.fxml");
     }
 
     private void loadIntoPane(String fxml) {

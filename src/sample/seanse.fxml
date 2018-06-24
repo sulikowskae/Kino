@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DodajSeans">
+    <center>
+        <TableView fx:id="tabelka" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn id="film" prefWidth="200.0" text="Film" />
+                <TableColumn id="data" prefWidth="200.0" text="Data" />
+                <TableColumn id="sala" prefWidth="200.0" text="Sala" />
+            </columns>
+        </TableView>
+    </center>
+    <right>
+        <VBox prefHeight="436.0" prefWidth="172.0" BorderPane.alignment="CENTER">
+            <children>
+            <ComboBox id="filmy" prefWidth="150.0" promptText="Film" />
+            <ComboBox id="sale" prefWidth="150.0" promptText="Sala" />
+            <Label text="Data " />
+            <TextField id="date" fx:id="data" prefHeight="26.0" prefWidth="51.0" promptText="dd.mm.rrrr" />
+            <Label text="Godzina" />
+            <HBox layoutX="10.0" layoutY="78.0" prefHeight="32.0" prefWidth="172.0">
+               <children>
+                  <TextField id="date" fx:id="godzina" prefHeight="26.0" prefWidth="51.0" />
+                  <TextField id="date" fx:id="minuty" layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="51.0" />
+               </children>
+            </HBox>
+                <Button mnemonicParsing="false" onAction="#dodaj" text="Dodaj" />
+                <Button mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
+                <Button mnemonicParsing="false" onAction="#wczytaj" text="Wczytaj" />
+            </children>
+        </VBox>
+    </right>
+</BorderPane>

@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -42,6 +44,26 @@ public class DodajSala implements HierarchicalController<MainController> {
     }
 
     public void initialize() {
+        number.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    number.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+
+        });
+        seats.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    seats.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+
+        });
         for (TableColumn<Sala, ?> salaTableColumn : tabelka.getColumns()) {
             if ("number".equals(salaTableColumn.getId())) {
                 salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("numer"));

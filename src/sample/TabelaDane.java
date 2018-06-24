@@ -10,6 +10,15 @@ public class TabelaDane {
 
     protected ObservableList<Film> filmy;
     protected ObservableList<Sala> sale;
+    protected ObservableList<Seans> seanse;
+
+
+    public ObservableList<Seans> getSeanse() {
+        return seanse;
+    }
+    public void setSeanse(ObservableList<Seans> seanse) {
+        this.seanse = seanse;
+    }
 
     public ObservableList<Sala> getSala() {
         return sale;
@@ -28,5 +37,8 @@ public class TabelaDane {
     public TabelaDane() {
         filmy = FXCollections.observableArrayList();
         sale = FXCollections.observableArrayList();
+        seanse = FXCollections.observableArrayList();
+
     }
+
 }
