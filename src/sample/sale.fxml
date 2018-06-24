@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<BorderPane fx:controller="sample.DodajSale" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:controller="sample.DodajSala" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <TableView fx:id="tabelka" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
