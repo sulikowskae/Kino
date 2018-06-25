@@ -26,6 +26,7 @@ public class TabelaDane {
         this.seanse = seanse;
     }
 
+    
     public ObservableList<Sala> getSala() {
         return sale;
     }
