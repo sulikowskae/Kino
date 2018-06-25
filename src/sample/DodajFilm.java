@@ -37,6 +37,7 @@ public class DodajFilm implements HierarchicalController<MainController> {
         //fil.setObrazek(obrazek.....);
         dodajDoBazy(fil);
         tabelka.getItems().add(fil);
+        this.synchronizuj();
     }
 
     private void dodajDoBazy(Film f) {
@@ -90,7 +91,9 @@ public class DodajFilm implements HierarchicalController<MainController> {
         }
     }
 
-    /** Uwaga na serializację: https://sekurak.pl/java-vs-deserializacja-niezaufanych-danych-i-zdalne-wykonanie-kodu-czesc-i/ */
+    /**
+     * Uwaga na serializację: https://sekurak.pl/java-vs-deserializacja-niezaufanych-danych-i-zdalne-wykonanie-kodu-czesc-i/
+     */
     public void wczytaj(ActionEvent actionEvent) {
         ArrayList<Film> filmyList;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.obj"))) {
@@ -103,5 +106,11 @@ public class DodajFilm implements HierarchicalController<MainController> {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
     }
+
+    public void synchronizuj() {
+        parentController.getTabelaDane().setFilmy(tabelka.getItems());
+    }
+
 }

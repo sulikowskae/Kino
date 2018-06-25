@@ -1,8 +1,5 @@
 package sample;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,31 +18,19 @@ import java.util.ArrayList;
 
 public class DodajSala implements HierarchicalController<MainController> {
 
-    public TextField number;
-    public TextField type;
-    public TextField seats;
+    public TextField number_txt;
+    public TextField type_txt;
+    public TextField seats_txt;
     public TableView<Sala> tabelka;
     private MainController parentController;
 
     public void dodaj(ActionEvent actionEvent) {
         Sala sala = new Sala();
-        sala.setNumer(number.getText());
-        sala.setTyp(type.getText());
-        sala.setMiejsca(seats.getText().isEmpty() ? null : Integer.parseInt(seats.getText()));
-        dodajDoBazy(sala);
+        sala.setNumer(number_txt.getText());
+        sala.setTyp(type_txt.getText());
+        sala.setMiejsca(seats_txt.getText().isEmpty() ? null : Integer.parseInt(seats_txt.getText()));
         tabelka.getItems().add(sala);
-    }
-
-    private void dodajDoBazy(Sala s) {
-        try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
-            ses.beginTransaction();
-            ses.persist(s);
-            ses.getTransaction().commit();
-        } catch (HibernateException e) {
-            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-            alert.show();
-        }
+        this.synchronizuj();
     }
 
     public void setParentController(MainController parentController) {
@@ -60,22 +45,22 @@ public class DodajSala implements HierarchicalController<MainController> {
     }
 
     public void initialize() {
-        number.textProperty().addListener(new ChangeListener<String>() {
+        number_txt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
-                    number.setText(newValue.replaceAll("[^\\d]", ""));
+                    number_txt.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
 
         });
-        seats.textProperty().addListener(new ChangeListener<String>() {
+        seats_txt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
-                    seats.setText(newValue.replaceAll("[^\\d]", ""));
+                    seats_txt.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
 
@@ -84,7 +69,7 @@ public class DodajSala implements HierarchicalController<MainController> {
             if ("number".equals(salaTableColumn.getId())) {
                 salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("numer"));
             } else if ("type".equals(salaTableColumn.getId())) {
-                salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("opis"));
+                salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("typ"));
             } else if ("seats".equals(salaTableColumn.getId())) {
                 salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("miejsca"));
             }
@@ -117,7 +102,7 @@ public class DodajSala implements HierarchicalController<MainController> {
         }
     }
 
-    public void synchronizuj(ActionEvent actionEvent) {
+    public void synchronizuj() {
         parentController.getTabelaDane().setSala(tabelka.getItems());
     }
 

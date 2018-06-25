@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.StringConverter;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -26,8 +27,8 @@ import java.util.Locale;
 public class DodajSeans implements HierarchicalController<MainController> {
 
 
-    public ComboBox<Film> filmy;
-    public ComboBox<Sala> sale;
+    public ComboBox<Film> filmy = new ComboBox<>();
+    public ComboBox<Sala> sale = new ComboBox<>();
     public TextField godzina;
     public TextField minuty;
     public TextField data;
@@ -89,13 +90,6 @@ public class DodajSeans implements HierarchicalController<MainController> {
 
     public void initialize() {
 
-        /*if (parentController.getTabelaDane().getFilmy()!= null) {
-           filmy.setItems(parentController.getTabelaDane().getFilmy());
-        }
-        if (parentController.getTabelaDane().getSala()!= null) {
-           sale.setItems(parentController.getTabelaDane().getSala());
-        }
-        */
         godzina.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -165,6 +159,27 @@ public class DodajSeans implements HierarchicalController<MainController> {
     public void dodajJesliEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             dodaj(new ActionEvent(keyEvent.getSource(), keyEvent.getTarget()));
+        }
+    }
+    public void aktualizujComboBoxy(){
+        filmy.setConverter(new StringConverter<Film>() {
+
+            @Override
+            public String toString(Film object) {
+                return object.getNazwa();
+            }
+
+            @Override
+            public Film fromString(String string) {
+                return null;
+            }
+        });
+
+        if (parentController.getTabelaDane().getFilmy()!= null) {
+            filmy.setItems(parentController.getTabelaDane().getFilmy());
+        }
+        if (parentController.getTabelaDane().getSala()!= null) {
+            sale.setItems(parentController.getTabelaDane().getSala());
         }
     }
 }

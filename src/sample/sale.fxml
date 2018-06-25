@@ -12,18 +12,18 @@
     <center>
         <TableView fx:id="tabelka" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn id="number" prefWidth="200.0" text="Numer sali" />
-                <TableColumn id="type" prefWidth="200.0" text="Typ sali" />
-                <TableColumn id="seats" prefWidth="200.0" text="Liczba miejsc" />
+                <TableColumn fx:id="number" prefWidth="200.0" text="Numer sali" />
+                <TableColumn fx:id="type" prefWidth="200.0" text="Typ sali" />
+                <TableColumn fx:id="seats" prefWidth="200.0" text="Liczba miejsc" />
             </columns>
         </TableView>
     </center>
     <right>
         <VBox prefHeight="436.0" prefWidth="172.0" BorderPane.alignment="CENTER">
             <children>
-                <TextField fx:id="number" promptText="Numer sali" />
-                <TextField fx:id="type" promptText="Typ sali" />
-                <TextField fx:id="seats" layoutX="10.0" layoutY="49.0" promptText="Liczba miejsc" />
+                <TextField fx:id="number_txt" promptText="Numer sali" />
+                <TextField fx:id="type_txt" promptText="Typ sali" />
+                <TextField fx:id="seats_txt" layoutX="10.0" layoutY="49.0" promptText="Liczba miejsc" />
                 <Button mnemonicParsing="false" onAction="#dodaj" text="Dodaj" />
                 <Button mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
                 <Button mnemonicParsing="false" onAction="#wczytaj" text="Wczytaj" />
