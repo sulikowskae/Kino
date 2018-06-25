@@ -36,4 +36,8 @@ public class Seans {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public String toString() {
+        return film + ", " + sala +", " + date.toString();
+    }
 }

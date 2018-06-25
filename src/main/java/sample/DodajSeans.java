@@ -3,14 +3,11 @@ package sample;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.util.StringConverter;
+import javafx.util.Callback;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -33,32 +30,32 @@ public class DodajSeans implements HierarchicalController<MainController> {
     public TableView<Seans> tabelka;
     private MainController parentController;
 
-   public Date stworzDate() {
-       String string = data.getText();
-       DateFormat format = new SimpleDateFormat("d.MM.yyyy", new Locale("pl"));
-       Date date = null;
-       try {
-           date = format.parse(string);
-       } catch (ParseException e) {
-           e.printStackTrace();
-       }
-       Integer h = Integer.parseInt(godzina.getText());
-       Integer m = Integer.parseInt(minuty.getText());
-       if (0<=h && h<24) {
-           date.setHours(h);
-       } else {
+    public Date stworzDate() {
+        String string = data.getText();
+        DateFormat format = new SimpleDateFormat("d.MM.yyyy", new Locale("pl"));
+        Date date = null;
+        try {
+            date = format.parse(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Integer h = Integer.parseInt(godzina.getText());
+        Integer m = Integer.parseInt(minuty.getText());
+        if (0 <= h && h < 24) {
+            date.setHours(h);
+        } else {
 
-       }
-       if (0<=m && m<60) {
-           date.setMinutes(m);
-       }
-       System.out.println(date); //
-       return date;
+        }
+        if (0 <= m && m < 60) {
+            date.setMinutes(m);
+        }
+        System.out.println(date); //
+        return date;
     }
 
     public void dodaj(ActionEvent actionEvent) {
         Date data = stworzDate();
-        Seans seans = new Seans(filmy.getValue(),sale.getValue(), data);
+        Seans seans = new Seans(filmy.getValue(), sale.getValue(), data);
         tabelka.getItems().add(seans);
     }
 
@@ -66,6 +63,7 @@ public class DodajSeans implements HierarchicalController<MainController> {
         this.parentController = parentController;
         tabelka.setEditable(true);
         tabelka.setItems(parentController.getTabelaDane().getSeanse());
+        initComboBox();
     }
 
     public MainController getParentController() {
@@ -100,7 +98,7 @@ public class DodajSeans implements HierarchicalController<MainController> {
         for (TableColumn<Seans, ?> salaTableColumn : tabelka.getColumns()) {
             if ("film".equals(salaTableColumn.getId())) {
                 salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("film"));
-            }  else if ("data".equals(salaTableColumn.getId())) {
+            } else if ("data".equals(salaTableColumn.getId())) {
                 salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
             } else if ("sala".equals(salaTableColumn.getId())) {
                 salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("sala"));
@@ -145,25 +143,37 @@ public class DodajSeans implements HierarchicalController<MainController> {
             dodaj(new ActionEvent(keyEvent.getSource(), keyEvent.getTarget()));
         }
     }
-    public void aktualizujComboBoxy(){
-        filmy.setConverter(new StringConverter<Film>() {
 
-            @Override
-            public String toString(Film object) {
-                return object.getNazwa();
-            }
-
-            @Override
-            public Film fromString(String string) {
-                return null;
-            }
-        });
-
-        if (parentController.getTabelaDane().getFilmy()!= null) {
-            filmy.setItems(parentController.getTabelaDane().getFilmy());
+    public void initComboBox() {
+        if (parentController.getTabelaDane().getFilmy() !=null) {
+            filmy.getItems().setAll(parentController.getTabelaDane().getFilmy());
+            System.out.println("Dodano");
         }
-        if (parentController.getTabelaDane().getSala()!= null) {
-            sale.setItems(parentController.getTabelaDane().getSala());
+
+        Callback<ListView<Film>, ListCell<Film>> cellFactory = new Callback<ListView<Film>, ListCell<Film>>() {
+            @Override
+            public ListCell<Film> call(ListView<Film> l) {
+                return new ListCell<Film>() {
+                    @Override
+                    protected void updateItem(Film item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                };
+            }
+        };
+
+        filmy.setButtonCell(cellFactory.call(null));
+        filmy.setCellFactory(cellFactory);
+
+
+        if(parentController.getTabelaDane().getSala() !=null) {
+                sale.getItems().setAll(parentController.getTabelaDane().getSala());
+            }
         }
+
     }
-}
