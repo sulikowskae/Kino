@@ -24,6 +24,7 @@ public class TabelaDane {
         return sale;
     }
     public void setSala(List<Sala> sale) {
+
         this.sale = FXCollections.observableArrayList(sale);
     }
 

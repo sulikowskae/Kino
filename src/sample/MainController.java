@@ -36,10 +36,12 @@ public class MainController implements HierarchicalController<MainController> {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         try {
             final BorderPane load = loader.load();
-            srodek.getChildren().clear();
-            srodek.getChildren().add(load);
             HierarchicalController<MainController> daneController = loader.getController();
             daneController.setParentController(this);
+            srodek.getChildren().clear();
+            srodek.getChildren().add(load);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
