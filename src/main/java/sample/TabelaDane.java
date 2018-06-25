@@ -1,4 +1,7 @@
 package sample;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Region;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,7 +34,6 @@ public class TabelaDane {
         return sale;
     }
     public void setSala(List<Sala> sale) {
-
         this.sale = FXCollections.observableArrayList(sale);
     }
 
@@ -42,13 +44,8 @@ public class TabelaDane {
         this.filmy = FXCollections.observableArrayList(filmy);
     }
 
-    public TabelaDane() {
-        filmy = FXCollections.observableArrayList();
-        sale = FXCollections.observableArrayList();
-        seanse = FXCollections.observableArrayList();
 
-    }
-    public DataContainer() {
+    public TabelaDane() {
         filmy = FXCollections.observableArrayList();
         sale = FXCollections.observableArrayList();
         seanse = FXCollections.observableArrayList();
@@ -66,7 +63,7 @@ public class TabelaDane {
             sale.addAll(query.list());
             ses.getTransaction().commit();
         } catch (HibernateException e) {
-            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.show();
         }
@@ -75,11 +72,11 @@ public class TabelaDane {
     private void wezFilmyZBazyDanych() {
         try (Session ses = sessionFactory.openSession()) {
             ses.beginTransaction();
-            Query<Film> query = ses.createQuery("from Film", Film.class);
-            students.addAll(query.list());
+            Query<Film> query = ses.createQuery("from sample.Film", Film.class);
+            filmy.addAll(query.list());
             ses.getTransaction().commit();
         } catch (HibernateException e) {
-            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.show();
         }
@@ -89,10 +86,10 @@ public class TabelaDane {
         try (Session ses = sessionFactory.openSession()) {
             ses.beginTransaction();
             Query<Seans> query = ses.createQuery("from Seans", Seans.class);
-            students.addAll(query.list());
+            seanse.addAll(query.list());
             ses.getTransaction().commit();
         } catch (HibernateException e) {
-            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.show();
         }

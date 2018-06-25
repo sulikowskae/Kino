@@ -3,7 +3,18 @@ package sample;
 public class Sala {
     private String typ;
     private String numer;
+
+    public Sala(String typ, String numer, Integer miejsca) {
+        this.typ = typ;
+        this.numer = numer;
+        this.miejsca = miejsca;
+    }
+
     private Integer miejsca; // liczba miejsc
+
+    public Sala() {
+
+    }
 
     /*public Sala(String numer, String typ, Integer miejsca) {
         this.numer = numer;

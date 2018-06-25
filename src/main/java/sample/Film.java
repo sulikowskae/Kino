@@ -13,9 +13,14 @@ public class Film {
     private Integer limit; //limit wiekowy
     private BufferedImage obrazek;
 
-    /*public Film(String nazwa, String opis, Integer czas, Integer limit) {
-        this(nazwa, opis, czas, limit);
-    }*/
+    public Film()  {}
+
+    public Film(String nazwa, String opis, Integer czas, Integer limit) {
+        this.nazwa = nazwa;
+        this.opis = opis;
+        this.czas = czas;
+        this.limit = limit;
+    }
 
     /* public Film(String nazwa, String opis, Integer czas, Integer limit, BufferedImage obrazek) {
         this.nazwa = nazwa;

@@ -11,13 +11,12 @@ import sample.Sala;
 import java.util.List;
 
 /**
- * Created by pwilkin on 19-Apr-18.
  * chcemy zrobić testy. Za pomocą testów powinniśmy: dodać
  * kilka przykładowych filmów, dodać kilka przykładowych sal,
  * dodać kilka przykładowych seansów, sprawdzić, czy uda się
  * wyszukać dodane filmy po nazwie, sale po numerze, seanse po filmie i sali
  */
-public class DatabaseTests {
+public class TestyBazodanowe {
 
     protected static Configuration config;
     protected static SessionFactory sessionFactory;
@@ -29,7 +28,7 @@ public class DatabaseTests {
     }
 
     @Test
-    public void testDbConnection() {
+    public void testujPołączenie() {
         try (Session ses = sessionFactory.openSession()) {
             ses.beginTransaction();
             ses.getTransaction().commit();
@@ -37,12 +36,12 @@ public class DatabaseTests {
     }
 
     @Test
-    public void addStudents() {
+    public void dodajFilmy() {
         try (Session ses = sessionFactory.openSession()) {
             ses.beginTransaction();
-            ses.save(new Film());
-            ses.save(new Film());
-            List re = ses.createQuery("select count(*) from Student").list();
+            ses.save(new Film("The Room", "A story of Johnny being torn apart by Lisa ", 75,15));
+            ses.save(new Film("Rubber", "A tire kiling people with psychic powers",80,18));
+            List re = ses.createQuery("select count(*) from Filmy").list();
             Number val = (Number) re.get(0);
             ses.getTransaction().rollback();
             Assert.assertEquals(2, val.intValue());
@@ -50,8 +49,23 @@ public class DatabaseTests {
             throw new AssertionError(e);
         }
     }
-
     @Test
+    public void dodajSale() {
+        try (Session ses = sessionFactory.openSession()) {
+            ses.beginTransaction();
+            ses.save(new Sala("Typ 1","2",34));
+            ses.save(new Sala("Typ 2", "3",27));
+            ses.save(new Sala("Typ 3", "3",27));
+            List re = ses.createQuery("select count(*) from Sale").list();
+            Number val = (Number) re.get(0);
+            ses.getTransaction().rollback();
+            Assert.assertEquals(3, val.intValue());
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    /*@Test
     public void testAddStudentsTransaction() {
         try (Session ses = sessionFactory.openSession()) {
             ses.beginTransaction();
@@ -71,8 +85,7 @@ public class DatabaseTests {
         } catch (Exception e) {
             throw new AssertionError(e);
         }
-
-    }
+*/
 
     @AfterClass
     public static void tearDown() {

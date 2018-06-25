@@ -1,15 +1,13 @@
 package sample;
 
+import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -25,7 +23,6 @@ import java.util.Locale;
 
 
 public class DodajSeans implements HierarchicalController<MainController> {
-
 
     public ComboBox<Film> filmy = new ComboBox<>();
     public ComboBox<Sala> sale = new ComboBox<>();
@@ -62,7 +59,7 @@ public class DodajSeans implements HierarchicalController<MainController> {
     public void dodaj(ActionEvent actionEvent) {
         Date data = stworzDate();
         Seans seans = new Seans(filmy.getValue(),sale.getValue(), data);
-        dodajDoBazy(data);
+        dodajDoBazy(seans);
         tabelka.getItems().add(seans);
     }
 
@@ -72,7 +69,7 @@ public class DodajSeans implements HierarchicalController<MainController> {
             ses.persist(sn);
             ses.getTransaction().commit();
         } catch (HibernateException e) {
-            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.show();
         }

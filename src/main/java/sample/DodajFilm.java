@@ -1,6 +1,8 @@
 
 package sample;
 
+import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -12,9 +14,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
@@ -37,7 +36,6 @@ public class DodajFilm implements HierarchicalController<MainController> {
         //fil.setObrazek(obrazek.....);
         dodajDoBazy(fil);
         tabelka.getItems().add(fil);
-        this.synchronizuj();
     }
 
     private void dodajDoBazy(Film f) {
@@ -46,7 +44,7 @@ public class DodajFilm implements HierarchicalController<MainController> {
             ses.persist(f);
             ses.getTransaction().commit();
         } catch (HibernateException e) {
-            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.show();
         }
