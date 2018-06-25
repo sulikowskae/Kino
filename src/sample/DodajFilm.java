@@ -1,6 +1,9 @@
 
 package sample;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,7 +35,20 @@ public class DodajFilm implements HierarchicalController<MainController> {
         fil.setCzas(time.getText().isEmpty() ? null : Integer.parseInt(time.getText()));
         fil.setLimit(restrict.getText().isEmpty() ? null : Integer.parseInt(restrict.getText()));
         //fil.setObrazek(obrazek.....);
+        dodajDoBazy(fil);
         tabelka.getItems().add(fil);
+    }
+
+    private void dodajDoBazy(Film f) {
+        try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
+            ses.beginTransaction();
+            ses.persist(f);
+            ses.getTransaction().commit();
+        } catch (HibernateException e) {
+            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.show();
+        }
     }
 
     public void setParentController(MainController parentController) {

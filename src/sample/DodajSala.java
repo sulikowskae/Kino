@@ -1,5 +1,8 @@
 package sample;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -29,7 +32,20 @@ public class DodajSala implements HierarchicalController<MainController> {
         sala.setNumer(number.getText());
         sala.setTyp(type.getText());
         sala.setMiejsca(seats.getText().isEmpty() ? null : Integer.parseInt(seats.getText()));
+        dodajDoBazy(sala);
         tabelka.getItems().add(sala);
+    }
+
+    private void dodajDoBazy(Sala s) {
+        try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
+            ses.beginTransaction();
+            ses.persist(s);
+            ses.getTransaction().commit();
+        } catch (HibernateException e) {
+            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.show();
+        }
     }
 
     public void setParentController(MainController parentController) {
