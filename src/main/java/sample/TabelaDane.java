@@ -72,7 +72,7 @@ public class TabelaDane {
     private void wezFilmyZBazyDanych() {
         try (Session ses = sessionFactory.openSession()) {
             ses.beginTransaction();
-            Query<Film> query = ses.createQuery("from sample.Film", Film.class);
+            Query<Film> query = ses.createQuery("from Film", Film.class);
             filmy.addAll(query.list());
             ses.getTransaction().commit();
         } catch (HibernateException e) {

@@ -1,17 +1,38 @@
 package sample;
 
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.util.List;
 
-public class Film {
-
+@Entity
+@Table(name = "FILMY")
+public class Film implements Serializable {
     /*
     film (nazwa, opis, czas trwania w minutach, limit wiekowy,  dla chętnych - obrazek z ilustracją)*/
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "NAZWA")
     private String nazwa;
+    @Column(name = "OPIS")
     private String opis;
+    @Column(name = "CZAS")
     private Integer czas; //czas trwania
+    @Column(name = "LIMIT")
     private Integer limit; //limit wiekowy
-    private BufferedImage obrazek;
+
+    //private BufferedImage obrazek;
 
     public Film()  {}
 
@@ -34,6 +55,8 @@ public class Film {
         }
     }
 */
+    @ManyToMany
+    @JoinTable(name = "SEANS", joinColumns = @JoinColumn(name = "SEANS_ID"), inverseJoinColumns = @JoinColumn(name = "FILM_ID"))
 
 
 
@@ -73,13 +96,6 @@ public class Film {
         this.limit = limit;
     }
 
-    public BufferedImage getObrazek() {
-        return obrazek;
-    }
-
-    public void setObrazek(BufferedImage obrazek) {
-        this.obrazek = obrazek;
-    }
 
     public String toString() {
         return nazwa;

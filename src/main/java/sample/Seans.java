@@ -1,8 +1,12 @@
 package sample;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
-
+@Entity
+@Table(name="SEANSE")
 public class Seans {
+
     private Sala sala;
     private Film film;
     private Date date;

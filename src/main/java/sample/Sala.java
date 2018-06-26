@@ -1,15 +1,26 @@
 package sample;
 
-public class Sala {
-    private String typ;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+
+@Entity
+@Table(name ="SALE")
+public class Sala  implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="NUMER")
     private String numer;
+
+    @Column(name = "TYP")
+    private String typ;
 
     public Sala(String typ, String numer, Integer miejsca) {
         this.typ = typ;
         this.numer = numer;
         this.miejsca = miejsca;
     }
-
+    @Column(name="MIEJSCA")
     private Integer miejsca; // liczba miejsc
 
     public Sala() {
