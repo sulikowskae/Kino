@@ -23,8 +23,11 @@
 
         <property name="hbm2ddl.auto">create-drop</property>
 
-        <mapping class="sample.Student" />
-        <mapping class="sample.Grupa" />
+
+        <mapping class="sample.Film" />
+        <mapping class="sample.Sala" />
+        <mapping class="sample.Seans" />
+
         <!-- <mapping resource="bean/User.hbm.xml" /> -->
 
     </session-factory>

@@ -9,11 +9,16 @@ import java.util.List;
 public class Sala  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SALA_ID")
+    protected Integer id;
+
     @Column(name="NUMER")
     private String numer;
 
     @Column(name = "TYP")
     private String typ;
+    @OneToMany(mappedBy = "sala",cascade=CascadeType.ALL)
+    protected List<Seans>  seansList;
 
     public Sala(String typ, String numer, Integer miejsca) {
         this.typ = typ;
@@ -22,6 +27,16 @@ public class Sala  implements Serializable {
     }
     @Column(name="MIEJSCA")
     private Integer miejsca; // liczba miejsc
+
+
+
+    public List<Seans> getSeansList() {
+        return seansList;
+    }
+
+    public void setSeansList(List<Seans> seansList) {
+        this.seansList = seansList;
+    }
 
     public Sala() {
 

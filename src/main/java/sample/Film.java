@@ -1,15 +1,7 @@
 package sample;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -21,8 +13,11 @@ public class Film implements Serializable {
     /*
     film (nazwa, opis, czas trwania w minutach, limit wiekowy,  dla chętnych - obrazek z ilustracją)*/
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FILM_ID")
+    protected Integer id;
     @Column(name = "NAZWA")
     private String nazwa;
     @Column(name = "OPIS")
@@ -31,6 +26,8 @@ public class Film implements Serializable {
     private Integer czas; //czas trwania
     @Column(name = "LIMIT")
     private Integer limit; //limit wiekowy
+    @OneToMany(mappedBy = "film",cascade=CascadeType.ALL)
+    protected List<Seans>  seansList;
 
     //private BufferedImage obrazek;
 
@@ -43,22 +40,35 @@ public class Film implements Serializable {
         this.limit = limit;
     }
 
-    /* public Film(String nazwa, String opis, Integer czas, Integer limit, BufferedImage obrazek) {
-        this.nazwa = nazwa;
-        this.opis = opis;
-        this.czas = czas;
-        this.limit = limit;
-        try {
-            this.obrazek=ImageIO.read(new File(nazwa+".png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
+    public Integer getId() {
+        return id;
     }
-*/
-    @ManyToMany
-    @JoinTable(name = "SEANS", joinColumns = @JoinColumn(name = "SEANS_ID"), inverseJoinColumns = @JoinColumn(name = "FILM_ID"))
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    /* public Film(String nazwa, String opis, Integer czas, Integer limit, BufferedImage obrazek) {
+            this.nazwa = nazwa;
+            this.opis = opis;
+            this.czas = czas;
+            this.limit = limit;
+            try {
+                this.obrazek=ImageIO.read(new File(nazwa+".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    */
+    public List<Seans> getSeansList() {
+        return seansList;
+    }
+
+    public void setSeansList(List<Seans> seansList) {
+        this.seansList = seansList;
+    }
 
     public String getNazwa() {
         return nazwa;
