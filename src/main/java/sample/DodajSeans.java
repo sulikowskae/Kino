@@ -66,7 +66,7 @@ public class DodajSeans implements HierarchicalController<MainController> {
     private void dodajDoBazy(Seans sn) {
         try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
             ses.beginTransaction();
-            ses.persist(sn);
+            ses.save(sn);
             ses.getTransaction().commit();
         } catch (HibernateException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);

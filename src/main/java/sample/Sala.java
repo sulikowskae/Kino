@@ -5,10 +5,10 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name ="SALE")
+@Table(name ="SALA")
 public class Sala  implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id @GeneratedValue
     @Column(name = "SALA_ID")
     protected Integer id;
 
@@ -20,15 +20,26 @@ public class Sala  implements Serializable {
     @OneToMany(mappedBy = "sala",cascade=CascadeType.ALL)
     protected List<Seans>  seansList;
 
+
+
+    @Column(name="MIEJSCA")
+    private Integer miejsca; // liczba miejsc
+
+    public Sala() {}
+
     public Sala(String typ, String numer, Integer miejsca) {
         this.typ = typ;
         this.numer = numer;
         this.miejsca = miejsca;
     }
-    @Column(name="MIEJSCA")
-    private Integer miejsca; // liczba miejsc
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public List<Seans> getSeansList() {
         return seansList;
@@ -38,9 +49,6 @@ public class Sala  implements Serializable {
         this.seansList = seansList;
     }
 
-    public Sala() {
-
-    }
 
     /*public Sala(String numer, String typ, Integer miejsca) {
         this.numer = numer;

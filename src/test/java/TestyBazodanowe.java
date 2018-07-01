@@ -27,11 +27,11 @@ public class  TestyBazodanowe {
 
     protected static Configuration config;
     protected static SessionFactory sessionFactory;
-    private Film f1 = new Film("The Room", "A story of Johnny being torn apart by Lisa ", 75,15);
-    private Film f2 = new Film("Rubber", "A tire kiling people with psychic powers",80,18);
-    private Sala s1 = new Sala("Typ 1","2",34);
-    private Sala s2 = new Sala("Typ 5","4",27);
-    private Sala s3 = new Sala("Typ 4","2",45);
+    private Film f1 = new Film("The Room", "A story of Johnny being torn apart by Lisa ", 75, 15);
+    private Film f2 = new Film("Rubber", "A tire kiling people with psychic powers", 80, 18);
+    private Sala s1 = new Sala("Typ 1", "2", 34);
+    private Sala s2 = new Sala("Typ 5", "4", 27);
+    private Sala s3 = new Sala("Typ 4", "2", 45);
 
 
     @BeforeClass
@@ -51,7 +51,7 @@ public class  TestyBazodanowe {
     @Test
     public void dodajFilmy() {
         try (Session ses = sessionFactory.openSession()) {
-             ses.beginTransaction();
+            ses.beginTransaction();
             ses.save(f1);
             ses.save(f2);
             List re = ses.createQuery("select count(*) from Film").list();
@@ -62,6 +62,7 @@ public class  TestyBazodanowe {
             throw new AssertionError(e);
         }
     }
+
     @Test
     public void dodajSale() {
         try (Session ses = sessionFactory.openSession()) {
@@ -85,7 +86,7 @@ public class  TestyBazodanowe {
             Date d1 = format.parse("01.03.2018 13:25");
             Date d2 = format.parse("03.03.2018 14:25");
             ses.beginTransaction();
-            ses.save(new Seans(f1,s1, d1));
+            ses.save(new Seans(f1, s1, d1));
             List re = ses.createQuery("select count(*) from Seans").list();
             Number val = (Number) re.get(0);
             ses.getTransaction().rollback();
@@ -94,6 +95,13 @@ public class  TestyBazodanowe {
             throw new AssertionError(e);
         }
     }
+
+    @AfterClass
+    public static void tearDown() {
+        sessionFactory.close();
+    }
+
+}
     /*@Test
     public void testAddStudentsTransaction() {
         try (Session ses = sessionFactory.openSession()) {
@@ -113,12 +121,6 @@ public class  TestyBazodanowe {
             Assert.assertEquals(2, val.intValue());
         } catch (Exception e) {
             throw new AssertionError(e);
-        }
-*/
+        }*/
 
-    @AfterClass
-    public static void tearDown() {
-        sessionFactory.close();
-    }
 
-}

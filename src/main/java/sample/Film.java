@@ -8,16 +8,15 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "FILMY")
+@Table(name = "FILM")
 public class Film implements Serializable {
     /*
     film (nazwa, opis, czas trwania w minutach, limit wiekowy,  dla chętnych - obrazek z ilustracją)*/
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     @Column(name = "FILM_ID")
-    protected Integer id;
+    protected Integer film_id;
+
     @Column(name = "NAZWA")
     private String nazwa;
     @Column(name = "OPIS")
@@ -26,10 +25,8 @@ public class Film implements Serializable {
     private Integer czas; //czas trwania
     @Column(name = "LIMIT")
     private Integer limit; //limit wiekowy
-    @OneToMany(mappedBy = "film",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "film", cascade=CascadeType.ALL)
     protected List<Seans>  seansList;
-
-    //private BufferedImage obrazek;
 
     public Film()  {}
 
@@ -40,15 +37,15 @@ public class Film implements Serializable {
         this.limit = limit;
     }
 
-
-
+    //private BufferedImage obrazek;
     public Integer getId() {
-        return id;
+        return film_id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.film_id = id;
     }
+
 
     /* public Film(String nazwa, String opis, Integer czas, Integer limit, BufferedImage obrazek) {
             this.nazwa = nazwa;

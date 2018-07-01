@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="SEANSE")
+@Table(name="SEANS")
 public class Seans {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    protected Integer id;
+
+    @Id @GeneratedValue
+    @Column(name = "SEANS_ID")
+    protected Integer seans_id;
     @ManyToOne(cascade=CascadeType.ALL)
     private Sala sala;
     @ManyToOne(cascade=CascadeType.ALL)
@@ -25,6 +25,17 @@ public class Seans {
         this.sala=sala;
         this.date=date;
     }
+
+
+
+    public Integer getSeans_id() {
+        return seans_id;
+    }
+
+    public void setSeans_id(Integer seans_id) {
+        this.seans_id = seans_id;
+    }
+
     public Sala getSala() {
         return sala;
     }

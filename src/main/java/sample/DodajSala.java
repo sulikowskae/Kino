@@ -3,12 +3,13 @@ package sample;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Region;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,10 +28,21 @@ public class DodajSala implements HierarchicalController<MainController> {
         sala.setNumer(number_txt.getText());
         sala.setTyp(type_txt.getText());
         sala.setMiejsca(seats_txt.getText().isEmpty() ? null : Integer.parseInt(seats_txt.getText()));
+        dodajDoBazy(sala);
         tabelka.getItems().add(sala);
-        this.synchronizuj();
     }
 
+    private void dodajDoBazy(Sala s) {
+        try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
+            ses.beginTransaction();
+            ses.persist(s);
+            ses.getTransaction().commit();
+        } catch (HibernateException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.show();
+        }
+    }
     public void setParentController(MainController parentController) {
         this.parentController = parentController;
         //tabelka.getItems().addAll(parentController.getDataContainer().getStudents());
