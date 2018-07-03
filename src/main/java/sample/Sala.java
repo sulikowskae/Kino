@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -7,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name ="SALA")
 public class Sala  implements Serializable {
+
 
     @Id @GeneratedValue
     @Column(name = "SALA_ID")

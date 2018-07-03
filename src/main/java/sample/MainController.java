@@ -30,6 +30,7 @@ public class MainController implements HierarchicalController<MainController> {
 
     public void seans(ActionEvent actionEvent) {
         loadIntoPane("seanse.fxml");
+
     }
 
     private void loadIntoPane(String fxml) {
@@ -38,15 +39,17 @@ public class MainController implements HierarchicalController<MainController> {
             final BorderPane load = loader.load();
             HierarchicalController<MainController> daneController = loader.getController();
             daneController.setParentController(this);
+
             srodek.getChildren().clear();
             srodek.getChildren().add(load);
-
-
+            if (fxml=="seanse.fxml") {
+                DodajSeans dC = (DodajSeans) daneController;
+                dC.aktualizujComboBoxy();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public MainController getParentController() {

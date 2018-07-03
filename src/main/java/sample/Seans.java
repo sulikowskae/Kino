@@ -16,14 +16,14 @@ public class Seans {
     @ManyToOne(cascade=CascadeType.ALL)
     private Film film;
     @Column(name="DATA")
-    private Date date;
+    private Date data;
 
     public Seans() { }
 
     public Seans(Film film, Sala sala, Date date) {
         this.film=film;
         this.sala=sala;
-        this.date=date;
+        this.data=date;
     }
 
 
@@ -53,14 +53,14 @@ public class Seans {
     }
 
     public Date getDate() {
-        return date;
+        return data;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.data = date;
     }
-
+    @Override
     public String toString() {
-        return film + ", " + sala +", " + date.toString();
+        return film + ", " + sala +", " + data.toString();
     }
 }

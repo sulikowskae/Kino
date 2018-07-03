@@ -7,33 +7,30 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:controller="sample.DodajSeans" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" >
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DodajSeans">
     <center>
         <TableView fx:id="tabelka" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn id="film" prefWidth="200.0" text="Film" />
-                <TableColumn id="data" prefWidth="200.0" text="Data" />
-                <TableColumn id="sala" prefWidth="200.0" text="Sala" />
+                <TableColumn fx:id="film" prefWidth="200.0" text="Film" />
+                <TableColumn fx:id="sala" prefWidth="200.0" text="Sala" />
+                <TableColumn fx:id="data" prefWidth="200.0" text="Data" />
+
             </columns>
         </TableView>
     </center>
     <right>
         <VBox prefHeight="436.0" prefWidth="172.0" BorderPane.alignment="CENTER">
             <children>
-            <ComboBox id="filmy" prefWidth="150.0" promptText="Film" />
-            <ComboBox id="sale" prefWidth="150.0" promptText="Sala" />
+            <ComboBox fx:id="filmy" prefWidth="150.0" promptText="Film" />
+            <ComboBox fx:id="sale" prefWidth="150.0" promptText="Sala" />
             <Label text="Data " />
-            <TextField id="date" fx:id="data" prefHeight="26.0" prefWidth="51.0" promptText="dd.mm.rrrr" />
+            <TextField id="date" fx:id="data_txt" prefHeight="26.0" prefWidth="51.0" promptText="dd.mm.yyyy" />
             <Label text="Godzina" />
-            <HBox layoutX="10.0" layoutY="78.0" prefHeight="32.0" prefWidth="172.0">
-               <children>
-                  <TextField id="date" fx:id="godzina" prefHeight="26.0" prefWidth="51.0" />
-                  <TextField id="date" fx:id="minuty" layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="51.0" />
-               </children>
-            </HBox>
+            <TextField fx:id="godzina" prefHeight="26.0" prefWidth="51.0" promptText="HH:mm" />
+            <Label fx:id="alert" textFill="#d73c3c" />
+
                 <Button mnemonicParsing="false" onAction="#dodaj" text="Dodaj" />
                 <Button mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
                 <Button mnemonicParsing="false" onAction="#wczytaj" text="Wczytaj" />

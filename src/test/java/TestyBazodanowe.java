@@ -64,6 +64,28 @@ public class  TestyBazodanowe {
     }
 
     @Test
+    public void testAddStudentsTransaction() {
+        try (Session ses = sessionFactory.openSession()) {
+            ses.beginTransaction();
+            ses.save(s1);
+            ses.save(s2);
+            ses.getTransaction().commit();
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
+
+        try (Session ses = sessionFactory.openSession()) {
+            ses.beginTransaction();
+            List re = ses.createQuery("select count(*) from Sala").list();
+            Number val = (Number) re.get(0);
+            ses.getTransaction().commit();
+            Assert.assertEquals(2, val.intValue());
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    @Test
     public void dodajSale() {
         try (Session ses = sessionFactory.openSession()) {
             ses.beginTransaction();
@@ -102,25 +124,5 @@ public class  TestyBazodanowe {
     }
 
 }
-    /*@Test
-    public void testAddStudentsTransaction() {
-        try (Session ses = sessionFactory.openSession()) {
-            ses.beginTransaction();
-            ses.save(new Sala());
-            ses.save(new Sala());
-            ses.getTransaction().commit();
-        } catch (Exception e) {
-            throw new AssertionError(e);
-        }
-
-        try (Session ses = sessionFactory.openSession()) {
-            ses.beginTransaction();
-            List re = ses.createQuery("select count(*) from Student").list();
-            Number val = (Number) re.get(0);
-            ses.getTransaction().commit();
-            Assert.assertEquals(2, val.intValue());
-        } catch (Exception e) {
-            throw new AssertionError(e);
-        }*/
 
 

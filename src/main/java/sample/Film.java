@@ -103,7 +103,6 @@ public class Film implements Serializable {
         this.limit = limit;
     }
 
-
     public String toString() {
         return nazwa;
     }

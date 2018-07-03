@@ -1,7 +1,14 @@
 package sample;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableStringValue;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.layout.Region;
+import javafx.util.Callback;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -12,58 +19,68 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
+import org.hibernate.query.Query;
 
+import javax.persistence.TemporalType;
+import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static java.lang.Math.abs;
+
 
 public class DodajSeans implements HierarchicalController<MainController> {
 
-    public ComboBox<Film> filmy = new ComboBox<>();
-    public ComboBox<Sala> sale = new ComboBox<>();
+    public ComboBox<Film> filmy;
+    public ComboBox<Sala> sale;
     public TextField godzina;
-    public TextField minuty;
-    public TextField data;
+    public TextField data_txt;
 
     public TableView<Seans> tabelka;
+    public Label alert;
     private MainController parentController;
 
-   public Date stworzDate() {
-       String string = data.getText();
-       DateFormat format = new SimpleDateFormat("d.MM.yyyy", new Locale("pl"));
-       Date date = null;
-       try {
-           date = format.parse(string);
-       } catch (ParseException e) {
-           e.printStackTrace();
-       }
-       Integer h = Integer.parseInt(godzina.getText());
-       Integer m = Integer.parseInt(minuty.getText());
-       if (0<=h && h<24) {
-           date.setHours(h);
-       } else {
-
-       }
-       if (0<=m && m<60) {
-           date.setMinutes(m);
-       }
-       System.out.println(date); //
-       return date;
+    private Date stworzDate() throws ParseException {
+        String string = data_txt.getText()+"."+godzina.getText();
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy.HH:mm", new Locale("pl"));
+        return format.parse(string);
     }
 
-    public void dodaj(ActionEvent actionEvent) {
-        Date data = stworzDate();
-        Seans seans = new Seans(filmy.getValue(),sale.getValue(), data);
-        dodajDoBazy(seans);
-        tabelka.getItems().add(seans);
+    public boolean sprawdzDate() {
+        String string = data_txt.getText() + "."+ godzina.getText();
+        DateFormat format = new SimpleDateFormat("d.MM.yyyy.HH:mm", new Locale("pl"));
+        format.setLenient(false);
+        Date date = null;
+        try {
+            date = format.parse(string);
+        } catch (ParseException e1) {
+            alert.setText("Błędna data lub godzina!");
+            e1.getSuppressed();
+            return false;
+        }
+        alert.setText("");
+        return true;
+    }
+    public void dodaj(ActionEvent actionEvent) throws ParseException {
+        if (filmy.getValue()==null) {
+            alert.setText("Wybierz film!");
+        } else if (sale.getValue()==null) {
+            alert.setText("Wybierz salę!");
+        }else if (sprawdzDate()) {
+            Seans seans = new Seans(filmy.getValue(), sale.getValue(), stworzDate());
+            dodajDoBazy(seans);
+            tabelka.getItems().add(seans);
+        }
     }
 
-    private void dodajDoBazy(Seans sn) {
+    public void dodajDoBazy(Seans sn) {
         try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
             ses.beginTransaction();
             ses.save(sn);
@@ -85,9 +102,8 @@ public class DodajSeans implements HierarchicalController<MainController> {
         return parentController;
     }
 
-    public void initialize() {
-
-        godzina.textProperty().addListener(new ChangeListener<String>() {
+   public void initialize() {
+         /*godzina.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
@@ -96,27 +112,18 @@ public class DodajSeans implements HierarchicalController<MainController> {
                 }
             }
 
-        });
-
-        minuty.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    minuty.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-
-        });
+        });*/
 
 
-        for (TableColumn<Seans, ?> salaTableColumn : tabelka.getColumns()) {
-            if ("film".equals(salaTableColumn.getId())) {
-                salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("film"));
-            }  else if ("data".equals(salaTableColumn.getId())) {
-                salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
-            } else if ("sala".equals(salaTableColumn.getId())) {
-                salaTableColumn.setCellValueFactory(new PropertyValueFactory<>("sala"));
+
+        for (TableColumn<Seans, ?> seansTableColumn : tabelka.getColumns()) {
+            if ("film".equals(seansTableColumn.getId())) {
+                seansTableColumn.setCellValueFactory(cell -> new SimpleObjectProperty(cell.getValue().getFilm().getNazwa()));
+            }  else if ("data".equals(seansTableColumn.getId())) {
+                Format formatter = new SimpleDateFormat("dd-MM-yyyy,  HH:mm");
+                seansTableColumn.setCellValueFactory(cell -> new SimpleObjectProperty(formatter.format(cell.getValue().getDate())));
+            } else if ("sala".equals(seansTableColumn.getId())) {
+                seansTableColumn.setCellValueFactory(cell -> new SimpleObjectProperty(cell.getValue().getSala().getNumer()));
             }
         }
 
@@ -153,30 +160,15 @@ public class DodajSeans implements HierarchicalController<MainController> {
         parentController.getTabelaDane().setSeanse(tabelka.getItems());
     }
 
-    public void dodajJesliEnter(KeyEvent keyEvent) {
+    public void dodajJesliEnter(KeyEvent keyEvent) throws ParseException {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             dodaj(new ActionEvent(keyEvent.getSource(), keyEvent.getTarget()));
         }
     }
-    public void aktualizujComboBoxy(){
-        filmy.setConverter(new StringConverter<Film>() {
 
-            @Override
-            public String toString(Film object) {
-                return object.getNazwa();
-            }
+        public void aktualizujComboBoxy(){
+            filmy.getItems().setAll(getParentController().getTabelaDane().getFilmy());
+            sale.getItems().setAll(getParentController().getTabelaDane().getSala());
 
-            @Override
-            public Film fromString(String string) {
-                return null;
-            }
-        });
-
-        if (parentController.getTabelaDane().getFilmy()!= null) {
-            filmy.setItems(parentController.getTabelaDane().getFilmy());
         }
-        if (parentController.getTabelaDane().getSala()!= null) {
-            sale.setItems(parentController.getTabelaDane().getSala());
-        }
-    }
 }
