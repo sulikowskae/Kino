@@ -1,6 +1,9 @@
 package sample;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 
 import java.awt.image.BufferedImage;
@@ -13,7 +16,7 @@ public class Film implements Serializable {
     /*
     film (nazwa, opis, czas trwania w minutach, limit wiekowy,  dla chętnych - obrazek z ilustracją)*/
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "FILM_ID")
     protected Integer film_id;
 
@@ -25,8 +28,6 @@ public class Film implements Serializable {
     private Integer czas; //czas trwania
     @Column(name = "LIMIT")
     private Integer limit; //limit wiekowy
-    @OneToMany(mappedBy = "film", cascade=CascadeType.ALL)
-    protected List<Seans>  seansList;
 
     public Film()  {}
 
@@ -37,7 +38,6 @@ public class Film implements Serializable {
         this.limit = limit;
     }
 
-    //private BufferedImage obrazek;
     public Integer getId() {
         return film_id;
     }
@@ -45,20 +45,9 @@ public class Film implements Serializable {
     public void setId(Integer id) {
         this.film_id = id;
     }
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "film",cascade =  CascadeType.ALL)
+    private List<Seans> seansList;
 
-
-    /* public Film(String nazwa, String opis, Integer czas, Integer limit, BufferedImage obrazek) {
-            this.nazwa = nazwa;
-            this.opis = opis;
-            this.czas = czas;
-            this.limit = limit;
-            try {
-                this.obrazek=ImageIO.read(new File(nazwa+".png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    */
     public List<Seans> getSeansList() {
         return seansList;
     }

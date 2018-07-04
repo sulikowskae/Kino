@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.layout.Region;
 import javafx.util.Callback;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -19,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
+import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.query.Query;
 
 import javax.persistence.TemporalType;
@@ -29,9 +31,7 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 import static java.lang.Math.abs;
 
@@ -52,8 +52,29 @@ public class DodajSeans implements HierarchicalController<MainController> {
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy.HH:mm", new Locale("pl"));
         return format.parse(string);
     }
+    public boolean sprawdzDostepnoscSali(Sala s, Date start, Integer czas_trw) {
+        boolean bool = true;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(start);
+        cal.add(Calendar.MINUTE, czas_trw);
+        Date koniec = cal.getTime();
 
-    public boolean sprawdzDate() {
+        if (s.getSeansList() != null) {
+            for (Seans seans : s.getSeansList()) { //sprawdza czy te które są nie zazębiają się z nowym
+                Date b = seans.getDate();
+                Date e = seans.getKoniec();
+                if (b == start || e == koniec|| (start.before(b) && koniec.after(b)) ||
+                        (start.before(e) && koniec.after(e)) ||
+                        (start.before(b) && koniec.after(e))) {
+                    alert.setText("Sala zajęta przez seans: \n" + seans.toString());
+                    bool = false;
+                }
+            }
+        }
+        return bool;
+    }
+
+        public boolean sprawdzDate() {
         String string = data_txt.getText() + "."+ godzina.getText();
         DateFormat format = new SimpleDateFormat("d.MM.yyyy.HH:mm", new Locale("pl"));
         format.setLenient(false);
@@ -61,7 +82,6 @@ public class DodajSeans implements HierarchicalController<MainController> {
         try {
             date = format.parse(string);
         } catch (ParseException e1) {
-            alert.setText("Błędna data lub godzina!");
             e1.getSuppressed();
             return false;
         }
@@ -73,18 +93,25 @@ public class DodajSeans implements HierarchicalController<MainController> {
             alert.setText("Wybierz film!");
         } else if (sale.getValue()==null) {
             alert.setText("Wybierz salę!");
-        }else if (sprawdzDate()) {
+        }else if (!sprawdzDate()) {
+            alert.setText("Błędna data lub godzina!");
+        } else if (sprawdzDostepnoscSali(sale.getValue(),stworzDate(),filmy.getValue().getCzas())) {
             Seans seans = new Seans(filmy.getValue(), sale.getValue(), stworzDate());
             dodajDoBazy(seans);
-            tabelka.getItems().add(seans);
+            System.out.println(sale.getValue().getSeansList()!= null ? sale.getValue().getSeansList(): "No list!");
+
         }
+
     }
 
     public void dodajDoBazy(Seans sn) {
         try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
             ses.beginTransaction();
             ses.save(sn);
+            ses.update(sn.getSala());
             ses.getTransaction().commit();
+            tabelka.getItems().add(sn);
+
         } catch (HibernateException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

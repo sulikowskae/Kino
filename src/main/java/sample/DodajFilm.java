@@ -41,7 +41,7 @@ public class DodajFilm implements HierarchicalController<MainController> {
     private void dodajDoBazy(Film f) {
         try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
             ses.beginTransaction();
-            ses.persist(f);
+            ses.save(f);
             ses.getTransaction().commit();
         } catch (HibernateException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);

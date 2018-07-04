@@ -91,11 +91,11 @@ public class  TestyBazodanowe {
             ses.beginTransaction();
             ses.save(s1);
             ses.save(s2);
-            ses.save(s3);
+            //ses.save(s3);
             List re = ses.createQuery("select count(*) from Sala").list();
             Number val = (Number) re.get(0);
             ses.getTransaction().rollback();
-            Assert.assertEquals(3, val.intValue());
+            Assert.assertEquals(2, val.intValue());
         } catch (Exception e) {
             throw new AssertionError(e);
         }

@@ -2,31 +2,34 @@ package sample;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name ="SALA")
 public class Sala  implements Serializable {
 
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SALA_ID")
-    protected Integer id;
+    protected Integer salaID;
 
     @Column(name="NUMER")
     private String numer;
 
     @Column(name = "TYP")
     private String typ;
-    @OneToMany(mappedBy = "sala",cascade=CascadeType.ALL)
-    protected List<Seans>  seansList;
+
+    @OneToMany( mappedBy = "sala",cascade =  CascadeType.ALL)
+    protected List<Seans>  seansList = new ArrayList<>();
 
 
-
-    @Column(name="MIEJSCA")
+     @Column(name="MIEJSCA")
     private Integer miejsca; // liczba miejsc
 
     public Sala() {}
@@ -37,12 +40,14 @@ public class Sala  implements Serializable {
         this.miejsca = miejsca;
     }
 
+
+
     public Integer getId() {
-        return id;
+        return salaID;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.salaID = id;
     }
 
     public List<Seans> getSeansList() {
@@ -52,6 +57,7 @@ public class Sala  implements Serializable {
     public void setSeansList(List<Seans> seansList) {
         this.seansList = seansList;
     }
+
 
 
     /*public Sala(String numer, String typ, Integer miejsca) {

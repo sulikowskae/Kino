@@ -29,7 +29,7 @@
             <TextField id="date" fx:id="data_txt" prefHeight="26.0" prefWidth="51.0" promptText="dd.mm.yyyy" />
             <Label text="Godzina" />
             <TextField fx:id="godzina" prefHeight="26.0" prefWidth="51.0" promptText="HH:mm" />
-            <Label fx:id="alert" textFill="#d73c3c" />
+            <Label fx:id="alert" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="172.0" textFill="#d73c3c" />
 
                 <Button mnemonicParsing="false" onAction="#dodaj" text="Dodaj" />
                 <Button mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />

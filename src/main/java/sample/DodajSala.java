@@ -35,7 +35,7 @@ public class DodajSala implements HierarchicalController<MainController> {
     private void dodajDoBazy(Sala s) {
         try (Session ses = parentController.getTabelaDane().getSessionFactory().openSession()) {
             ses.beginTransaction();
-            ses.persist(s);
+            ses.save(s);
             ses.getTransaction().commit();
         } catch (HibernateException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
@@ -97,7 +97,6 @@ public class DodajSala implements HierarchicalController<MainController> {
         }
     }
 
-    /** Uwaga na serializację: https://sekurak.pl/java-vs-deserializacja-niezaufanych-danych-i-zdalne-wykonanie-kodu-czesc-i/ */
     public void wczytaj(ActionEvent actionEvent) {
         ArrayList<Sala> saleList;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.obj"))) {

@@ -1,6 +1,7 @@
 package sample;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -8,12 +9,16 @@ import java.util.List;
 @Table(name="SEANS")
 public class Seans {
 
-    @Id @GeneratedValue
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEANS_ID")
     protected Integer seans_id;
+
     @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name= "salaID")
     private Sala sala;
     @ManyToOne(cascade=CascadeType.ALL)
+
     private Film film;
     @Column(name="DATA")
     private Date data;
@@ -26,6 +31,12 @@ public class Seans {
         this.data=date;
     }
 
+    public Date getKoniec() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(data);
+        cal.add(Calendar.MINUTE, film.getCzas());
+        return cal.getTime();
+    }
 
 
     public Integer getSeans_id() {
@@ -62,5 +73,15 @@ public class Seans {
     @Override
     public String toString() {
         return film + ", " + sala +", " + data.toString();
+    }
+
+
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 }
