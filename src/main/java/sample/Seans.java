@@ -10,7 +10,8 @@ import java.util.List;
 public class Seans {
 
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "SEANS_ID")
     protected Integer seans_id;
 

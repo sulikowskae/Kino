@@ -15,7 +15,8 @@ public class Sala  implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "SALA_ID")
     protected Integer salaID;
 
@@ -25,7 +26,7 @@ public class Sala  implements Serializable {
     @Column(name = "TYP")
     private String typ;
 
-    @OneToMany( mappedBy = "sala",cascade =  CascadeType.ALL)
+    @OneToMany( mappedBy = "sala",cascade =  CascadeType.ALL, fetch=FetchType.EAGER)
     protected List<Seans>  seansList = new ArrayList<>();
 
 

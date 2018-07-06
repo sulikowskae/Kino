@@ -96,10 +96,12 @@ public class DodajSeans implements HierarchicalController<MainController> {
         }else if (!sprawdzDate()) {
             alert.setText("Błędna data lub godzina!");
         } else if (sprawdzDostepnoscSali(sale.getValue(),stworzDate(),filmy.getValue().getCzas())) {
-            Seans seans = new Seans(filmy.getValue(), sale.getValue(), stworzDate());
-            dodajDoBazy(seans);
-            System.out.println(sale.getValue().getSeansList()!= null ? sale.getValue().getSeansList(): "No list!");
 
+            Seans seans = new Seans(filmy.getValue(), sale.getValue(), stworzDate());
+
+            System.out.println(sale.getValue().getSeansList()!= null ? sale.getValue().getSeansList(): "No list!");
+            dodajDoBazy(seans);
+            sale.getValue().getSeansList().add(seans);
         }
 
     }
